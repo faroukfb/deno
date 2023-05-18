@@ -37,7 +37,7 @@ let products: Product[] = [
         price: 10
     }
 ];
-
+var lastnumber=5
 const getProducts = ({ response }: { response: any }) => {
     response.body = {
         success: true,
@@ -73,10 +73,11 @@ response.body = {
 }
 
 }
-const addProduct = async ({ request, response }: { request: any, response: any }) => {    
+const addProduct = async ({ request, response }: { request: any, response: any }) => { 
+    lastnumber++
     const body = await request.body().value
     
-    if (!request.hasBody) {
+    if (!request.hasBody ||!body.name||!body.description ||!body.price) {
         response.status = 400
         response.body = {
             success: false,
@@ -85,7 +86,7 @@ const addProduct = async ({ request, response }: { request: any, response: any }
     } else {
         
         const product: Product = body
-        product.id= String(v1.generate())
+        product.id= String(lastnumber)
         
         products.push(product)
         response.status = 201
